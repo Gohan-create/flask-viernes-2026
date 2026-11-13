@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Mapa de plazas | Mi Plaza Segura{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="section-heading left">
+    <span class="eyebrow">Mapa de Las Heras</span>
+    <h1>Explorá las plazas del departamento.</h1>
+  </div>
+</section>
+
+<section class="map-section">
+  <div class="map-controls glass-card">
+    <div class="search-field">
+      <label for="searchPlaza">Buscar plaza</label>
+      <input id="searchPlaza" type="text" placeholder="Buscar por nombre o ubicación" value="{{ query }}" />
+    </div>
+
+    <div class="filter-field">
+      <label for="estadoFiltro">Estado</label>
+      <select id="estadoFiltro">
+        <option value="Todas" {% if estado == 'Todas' %}selected{% endif %}>Todas</option>
+        <option value="Buen estado" {% if estado == 'Buen estado' %}selected{% endif %}>Buen estado</option>
+        <option value="Estado regular" {% if estado == 'Estado regular' %}selected{% endif %}>Estado regular</option>
+        <option value="Mal estado" {% if estado == 'Mal estado' %}selected{% endif %}>Mal estado</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="map-layout">
+    <div id="map" class="map-panel"></div>
+    <aside class="list-panel glass-card">
+      <div class="list-header">
+        <h2>Plazas</h2>
+        <span id="plazaCount">{{ plazas|length }}</span>
+      </div>
+      <div id="plazaList" class="plaza-list"></div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  const plazas = {{ plazas|tojson|safe }};
+</script>
+<script src="{{ url_for('static', filename='js/mapa.js') }}"></script>
+{% endblock %}

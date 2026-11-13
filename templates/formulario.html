@@ -1,23 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-</head>
-<body>
-    <h1>Formulario de contactos</h1>
-    <form method= "POST">
-        <label for="">Nombre</label>
-        <br>
-        <input type="text" name="nombre" required>
-        <br>
-        <label for="">Mensaje</label>
-        <br>
-        <textarea name="mensaje" id="" placeholder="aca ingrese su mensaje"></textarea>
-        <br>
-        <button type="submit">Enviar</button>
+{% extends 'base.html' %}
+
+{% block title %}Formulario de opinión | Mi Plaza Segura{% endblock %}
+
+{% block content %}
+<section class="form-layout">
+  <div class="form-card glass-card">
+    <div class="form-header">
+      <span class="eyebrow">Plaza seleccionada</span>
+      <h1>{{ plaza.nombre }}</h1>
+      <p>{{ plaza.ubicacion }}</p>
+    </div>
+
+    <form method="POST" class="opinion-form" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+      <div class="form-grid">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" value="{{ nombre or '' }}" maxlength="50" required />
+        </div>
+
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" type="text" value="{{ apellido or '' }}" maxlength="50" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="opinion">Opinión sobre la plaza</label>
+        <textarea id="opinion" name="opinion" rows="6" maxlength="500" placeholder="Contanos cómo la percibís, qué mejoras harías o qué problemas observas." required>{{ opinion or '' }}</textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="primary-btn">Enviar opinión</button>
+        <a href="{{ url_for('plaza_detalle', plaza_id=plaza['id']) }}" class="ghost-btn">Cancelar</a>
+      </div>
     </form>
-</body>
-</html>
+  </div>
+</section>
+{% endblock %}

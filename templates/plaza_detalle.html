@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ plaza.nombre }} | Mi Plaza Segura{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+  <div class="detail-header glass-card">
+    <div class="detail-image" style="background-image: url('{{ plaza.imagen if plaza.imagen else 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80' }}');"></div>
+    <div class="detail-info">
+      <div class="status-badge status-{{ plaza.estado|lower|replace(' ', '-') }}">{{ plaza.estado }}</div>
+      <h1>{{ plaza.nombre }}</h1>
+      <p class="detail-location">{{ plaza.ubicacion }}</p>
+      <p>{{ plaza.descripcion }}</p>
+
+      <div class="detail-meta">
+        <span>Opiniones: {{ total_opiniones }}</span>
+        <span>Datos de demostración: {{ 'Sí' if plaza.es_demo else 'No' }}</span>
+      </div>
+
+      <div class="detail-actions">
+        <a href="{{ url_for('formulario_plaza', plaza_id=plaza['id']) }}" class="primary-btn">Realizar reclamo</a>
+        <a href="{{ url_for('opiniones_plaza', plaza_id=plaza['id']) }}" class="secondary-btn">Ver opiniones</a>
+        <a href="{{ url_for('mapa') }}" class="ghost-btn">Volver al mapa</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

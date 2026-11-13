@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Opiniones de {{ plaza.nombre }} | Mi Plaza Segura{% endblock %}
+
+{% block content %}
+<section class="opinions-page">
+  <div class="opinions-header glass-card">
+    <div>
+      <span class="eyebrow">Plaza</span>
+      <h1>{{ plaza.nombre }}</h1>
+      <p>{{ plaza.ubicacion }}</p>
+    </div>
+    <div class="opinions-summary">
+      <strong>{{ opiniones|length }}</strong>
+      <span>opiniones</span>
+    </div>
+  </div>
+
+  <div class="opinion-actions">
+    <a href="{{ url_for('formulario_plaza', plaza_id=plaza['id']) }}" class="primary-btn">Realizar reclamo</a>
+    <a href="{{ url_for('plaza_detalle', plaza_id=plaza['id']) }}" class="secondary-btn">Volver a la plaza</a>
+  </div>
+
+  {% if opiniones %}
+    <div class="opinions-grid">
+      {% for opinion in opiniones %}
+      <article class="opinion-card glass-card">
+        <div class="opinion-topline">
+          <h3>{{ opinion.nombre }} {{ opinion.apellido }}</h3>
+          <span>{{ opinion.fecha[:10] }}</span>
+        </div>
+        <p>{{ opinion.opinion }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state glass-card">
+      <h2>Esta plaza todavía no tiene opiniones. ¡Sé el primero en compartir tu experiencia!</h2>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

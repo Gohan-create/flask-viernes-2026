@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Mi Plaza Segura{% endblock %}</title>
+    <meta name="description" content="Mi Plaza Segura conecta a los vecinos de Las Heras con sus plazas, opiniones y reclamos de mantenimiento." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              abyss: '#080D18',
+              panel: '#101A2B',
+              card: '#16243A',
+              primary: '#5798D5',
+              sky: '#91D8F0',
+              violet: '#8173C9',
+              text: '#E8EDF5',
+              muted: '#A5B1C5'
+            },
+            boxShadow: {
+              glow: '0 0 0 1px rgba(145,216,240,0.4), 0 0 30px rgba(87,152,213,0.18)'
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <div class="page-glow"></div>
+
+    <header class="site-header">
+      <nav class="nav-shell">
+        <a href="{{ url_for('inicio') }}" class="brand">
+          <span class="brand-mark">M</span>
+          <span>Mi Plaza Segura</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="{{ url_for('inicio') }}">Inicio</a>
+          <a href="{{ url_for('mapa') }}">Explorar plazas</a>
+          <a href="{{ url_for('inicio') }}#sobre">Sobre nosotros</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-shell">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+              <div class="flash-message flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <div>
+          <h3>Mi Plaza Segura</h3>
+          <p>Las Heras, Mendoza, Argentina</p>
+        </div>
+        <div>
+          <p>Plataforma vecinal para conocer, evaluar y mejorar los espacios públicos del departamento.</p>
+        </div>
+        <div>
+          <div class="footer-links">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('mapa') }}">Mapa</a>
+            <a href="{{ url_for('inicio') }}#sobre">Sobre nosotros</a>
+          </div>
+          <p>© {{ current_year or 2026 }}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

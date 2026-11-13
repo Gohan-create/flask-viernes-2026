@@ -1,17 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina de johann</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-</head>
-<body>
-<h1>Bienvenidos</h1>   
-<p>esta es mi primera pagina web</p> 
-<a href="/formulario"><button>Formulario</button></a>
-<a href="/respuestas"><button>Respuestas</button></a>
+{% extends 'base.html' %}
 
+{% block title %}Mi Plaza Segura | Inicio{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<section id="inicio" class="hero-section">
+  <div class="hero-content">
+    <div class="eyebrow">Las Heras • Mendoza • Argentina</div>
+    <h1>Las plazas son de todos. Cuidarlas también.</h1>
+    <p>
+      Conocé, explorá y compartí tu opinión sobre los espacios públicos de Las Heras. Entre todos podemos construir plazas más seguras, limpias y cuidadas.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{{ url_for('mapa') }}" class="primary-btn">Explorar plazas</a>
+      <a href="#sobre" class="secondary-btn">Conocer el proyecto</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card glass-card">
+      <div class="mini-map-panel">
+        <span class="dot dot-one"></span>
+        <span class="dot dot-two"></span>
+        <span class="dot dot-three"></span>
+        <div class="mini-park"></div>
+      </div>
+      <div class="mini-stats">
+        <div>
+          <strong>4</strong>
+          <span>plazas de prueba</span>
+        </div>
+        <div>
+          <strong>+6</strong>
+          <span>opiniones registradas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="intro-block">
+  <div class="section-heading left">
+    <span class="eyebrow">¿Qué es Mi Plaza Segura?</span>
+    <h2>Una red vecinal para entender y mejorar nuestros espacios públicos.</h2>
+  </div>
+  <p>
+    Mi Plaza Segura es una plataforma creada para conectar a los vecinos con los espacios públicos de Las Heras. Buscamos fomentar la participación ciudadana, permitiendo que cada persona pueda conocer el estado de las plazas, compartir experiencias y comunicar problemas o necesidades.
+  </p>
+</section>
+
+<section class="map-cta">
+  <div class="cta-card glass-card">
+    <div>
+      <span class="eyebrow">Exploración</span>
+      <h2>Descubrí el estado real de cada plaza del departamento.</h2>
+    </div>
+    <a href="{{ url_for('mapa') }}" class="primary-btn">Descubrir plazas</a>
+  </div>
+</section>
+
+<section id="sobre" class="about-section">
+  <div class="section-heading center">
+    <span class="eyebrow">Sobre nosotros</span>
+    <h2>Participación ciudadana para plazas más cuidadas.</h2>
+  </div>
+
+  <div class="about-grid">
+    <article class="glass-card info-card">
+      <h3>¿Por qué nació este proyecto?</h3>
+      <p>Porque cada plaza refleja la vida cotidiana de un barrio. Cuando los vecinos observan, reportan y comparten información, se pueden detectar necesidades antes de que se conviertan en problemas mayores.</p>
+    </article>
+
+    <article class="glass-card info-card">
+      <h3>¿Qué buscamos?</h3>
+      <p>Promover un diagnóstico claro del estado de los espacios verdes, facilitar la comunicación con la comunidad y acompañar decisiones de mejora y mantenimiento.</p>
+    </article>
+
+    <article class="glass-card info-card">
+      <h3>¿Cómo pueden contribuir?</h3>
+      <p>Visitando el mapa, revisando detalles de cada plaza, dejando opiniones y reportando condiciones que requieren atención y cuidado.</p>
+    </article>
+  </div>
+</section>
+
+<section class="featured-plazas">
+  <div class="section-heading left">
+    <span class="eyebrow">Plazas destacadas</span>
+    <h2>Espacios públicos que necesitan ser vistos y escuchados.</h2>
+  </div>
+
+  <div class="plaza-preview-grid">
+    {% for plaza in plazas %}
+    <article class="glass-card plaza-preview-card">
+      <div class="preview-image" style="background-image: url('{{ plaza.imagen if plaza.imagen else 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80' }}');"></div>
+      <div class="preview-body">
+        <div class="status-badge status-{{ plaza.estado|lower|replace(' ', '-') }}">{{ plaza.estado }}</div>
+        <h3>{{ plaza.nombre }}</h3>
+        <p>{{ plaza.ubicacion }}</p>
+        <a href="{{ url_for('plaza_detalle', plaza_id=plaza['id']) }}" class="text-link">Ver detalle</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
