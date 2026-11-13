@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuestas</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <h1>Respuestas recibidas</h1>
+    <h3>Total de respuestas: {{mensajes|length}}</h3>
+    {% if mensajes %}
+        {%for mensaje in mensajes %}
+           <div>
+               <h3>{{mensaje.nombre}}</h3>
+               <p>{{mensaje.mensaje}}</p>
+           </div>
+        {% endfor %}
+    {% endif %}
+    <a href="/"><button>inicio</button></a>
+</body>
+</html>
